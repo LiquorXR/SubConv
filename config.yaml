@@ -70,8 +70,6 @@ CUSTOM_PROXY_GROUP:
   interval: 180
 - name: "📲 Telegram"
   type: select
-  proxies:
-    - "🚀 节点选择"
 - name: "🆎 AdBlock"
   type: select
   proxies:
