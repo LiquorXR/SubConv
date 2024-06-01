@@ -49,7 +49,7 @@ RULESET:
 - - DIRECT
   - https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaIp.list
 - - DIRECT
-  - '[]GEOIP,CN,no-resolve'
+  - '[]GEOIP,CN'
 - - 🚀 节点选择
   - '[]FINAL'
 CUSTOM_PROXY_GROUP:
