@@ -69,16 +69,16 @@ from urllib.parse import urlparse
     if url or urlstandby:
         if url:
             for u in range(len(url)):
-                file_name = generate_file_name(url[u])
                 providers["proxy-providers"].update({
-                    f"subscription{u}": {
+                    "subscription{}".format(u): {
                         "type": "http",
                         "url": url[u],
                         "interval": int(interval),
-                        "path": f"./sub/{file_name}.yaml",
+                        "path": "./sub/subscription_{}.yaml".format(u),
                         "health-check": {
                             "enable": True,
                             "interval": 60,
+                            # "lazy": True,
                             "url": config.configInstance.TEST_URL
                         }
                     }
@@ -86,17 +86,17 @@ from urllib.parse import urlparse
 
         if urlstandby:
             for u in range(len(urlstandby)):
-                file_name = generate_file_name(urlstandby[u])
                 providers["proxy-providers"].update({
-                    f"subscription_sub{u}": {
+                    "subscription{}".format("sub"+str(u)): {
                         "type": "http",
                         "url": urlstandby[u],
                         "interval": int(interval),
-                        "path": f"./sub/{file_name}_standby.yaml",
+                        "path": "./sub/subscription_standby_{}.yaml".format(u),
                         "health-check": {
                             "enable": True,
                             "interval": 60,
-                            "url": config.configInstance.TEST_URL
+                            # "lazy": True,
+                             "url": config.configInstance.TEST_URL
                         }
                     }
                 })
