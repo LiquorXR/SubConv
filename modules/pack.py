@@ -50,6 +50,17 @@ async def pack(url: list, urlstandalone: list, urlstandby:list, urlstandbystanda
         result.update(proxies)
 
 
+from urllib.parse import urlparse
+
+    # Helper function to generate a safe file name from URL
+    def generate_file_name(url):
+        parsed_url = urlparse(url)
+        # Extract the netloc and path to form a file name, replacing any non-alphanumeric characters
+        file_name = f"{parsed_url.netloc}_{parsed_url.path.replace('/', '_')}".strip("_")
+        # Remove any invalid characters for a file name
+        file_name = re.sub(r'[^a-zA-Z0-9._-]', '_', file_name)
+        return file_name
+
     # proxy providers
     providers = {
         "proxy-providers": {}
@@ -58,16 +69,16 @@ async def pack(url: list, urlstandalone: list, urlstandby:list, urlstandbystanda
     if url or urlstandby:
         if url:
             for u in range(len(url)):
+                file_name = generate_file_name(url[u])
                 providers["proxy-providers"].update({
-                    "subscription{}".format(u): {
+                    f"subscription{u}": {
                         "type": "http",
                         "url": url[u],
                         "interval": int(interval),
-                        "path": "./sub/subscription_{}.yaml".format(u),
+                        "path": f"./sub/{file_name}.yaml",
                         "health-check": {
                             "enable": True,
                             "interval": 60,
-                            # "lazy": True,
                             "url": config.configInstance.TEST_URL
                         }
                     }
@@ -75,20 +86,21 @@ async def pack(url: list, urlstandalone: list, urlstandby:list, urlstandbystanda
 
         if urlstandby:
             for u in range(len(urlstandby)):
+                file_name = generate_file_name(urlstandby[u])
                 providers["proxy-providers"].update({
-                    "subscription{}".format("sub"+str(u)): {
+                    f"subscription_sub{u}": {
                         "type": "http",
                         "url": urlstandby[u],
                         "interval": int(interval),
-                        "path": "./sub/subscription_standby_{}.yaml".format(u),
+                        "path": f"./sub/{file_name}_standby.yaml",
                         "health-check": {
                             "enable": True,
                             "interval": 60,
-                            # "lazy": True,
-                             "url": config.configInstance.TEST_URL
+                            "url": config.configInstance.TEST_URL
                         }
                     }
                 })
+
     if len(providers["proxy-providers"]) == 0:
         providers = None
     if providers:
