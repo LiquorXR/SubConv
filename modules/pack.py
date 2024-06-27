@@ -49,18 +49,6 @@ async def pack(url: list, urlstandalone: list, urlstandby:list, urlstandbystanda
     if proxies:
         result.update(proxies)
 
-
-from urllib.parse import urlparse
-
-    # Helper function to generate a safe file name from URL
-    def generate_file_name(url):
-        parsed_url = urlparse(url)
-        # Extract the netloc and path to form a file name, replacing any non-alphanumeric characters
-        file_name = f"{parsed_url.netloc}_{parsed_url.path.replace('/', '_')}".strip("_")
-        # Remove any invalid characters for a file name
-        file_name = re.sub(r'[^a-zA-Z0-9._-]', '_', file_name)
-        return file_name
-
 import uuid
 
 providers = {
