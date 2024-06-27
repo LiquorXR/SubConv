@@ -51,46 +51,49 @@ async def pack(url: list, urlstandalone: list, urlstandby:list, urlstandbystanda
 
 
     # proxy providers
-    providers = {
-        "proxy-providers": {}
-    }
-    if url or urlstandby:
-        if url:
-            for u in range(len(url)):
-                providers["proxy-providers"].update({
-                    "subscription{}".format(u): {
-                        "type": "http",
-                        "url": url[u],
-                        "interval": int(interval),
-                        "path": "./sub/subscription{}.yaml".format(u),
-                        "health-check": {
-                            "enable": True,
-                            "interval": 60,
-                            # "lazy": True,
-                            "url": config.configInstance.TEST_URL
-                        }
+providers = {
+    "proxy-providers": {}
+}
+
+if url or urlstandby:
+    if url:
+        for u in range(len(url)):
+            providers["proxy-providers"].update({
+                "subscription{}".format(u): {
+                    "type": "http",
+                    "url": url[u],
+                    "interval": int(interval),
+                    "path": "./sub/subscription_{}.yaml".format(u),
+                    "health-check": {
+                        "enable": True,
+                        "interval": 60,
+                        # "lazy": True,
+                        "url": config.configInstance.TEST_URL
                     }
-                })
-        if urlstandby:
-            for u in range(len(urlstandby)):
-                providers["proxy-providers"].update({
-                    "subscription{}".format("sub"+str(u)): {
-                        "type": "http",
-                        "url": urlstandby[u],
-                        "interval": int(interval),
-                        "path": "./sub/subscription{}.yaml".format("sub"+str(u)),
-                        "health-check": {
-                            "enable": True,
-                            "interval": 60,
-                            # "lazy": True,
-                             "url": config.configInstance.TEST_URL
-                        }
+                }
+            })
+
+    if urlstandby:
+        for u in range(len(urlstandby)):
+            providers["proxy-providers"].update({
+                "subscription{}".format("sub"+str(u)): {
+                    "type": "http",
+                    "url": urlstandby[u],
+                    "interval": int(interval),
+                    "path": "./sub/subscription_standby_{}.yaml".format(u),
+                    "health-check": {
+                        "enable": True,
+                        "interval": 60,
+                        # "lazy": True,
+                         "url": config.configInstance.TEST_URL
                     }
-                })
-    if len(providers["proxy-providers"]) == 0:
-        providers = None
-    if providers:
-        result.update(providers)
+                }
+            })
+
+if len(providers["proxy-providers"]) == 0:
+    providers = None
+if providers:
+    result.update(providers)
 
     # result += head.PROXY_GROUP_HEAD
     proxyGroups = {
