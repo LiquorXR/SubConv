@@ -61,7 +61,6 @@ import uuid
                # 生成随机文件名
                 random_filename = str(uuid.uuid4())
                 providers["proxy-providers"].update({
-                   "subscription{}".format(u): {
                         "type": "http",
                         "url": url[u],
                         "interval": int(interval),
@@ -71,7 +70,6 @@ import uuid
                             "interval": 60,
                             "url": config.configInstance.TEST_URL
                         }
-                    }
                 })
 
         if urlstandby:
@@ -79,7 +77,6 @@ import uuid
                 # 生成随机文件名
                 random_filename = str(uuid.uuid4())
                 providers["proxy-providers"].update({
-                    "subscription{}".format("sub"+str(u)): {
                         "type": "http",
                         "url": urlstandby[u],
                         "interval": int(interval),
@@ -89,7 +86,6 @@ import uuid
                             "interval": 60,
                             "url": config.configInstance.TEST_URL
                         }
-                    }
                 })
 
     if len(providers["proxy-providers"]) == 0:
