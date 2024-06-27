@@ -129,10 +129,6 @@ CUSTOM_PROXY_GROUP:
 - name: 🔮 负载均衡
   type: load-balance
   rule: false
-- name: 🔮 香港负载均衡
-  type: load-balance
-  rule: false
-  regex: 🇭🇰|HK|Hong|Kong|HGC|WTT|CMI|港
 - name: 🤖 ChatBot
   type: select
   prior: PROXY
@@ -199,27 +195,3 @@ CUSTOM_PROXY_GROUP:
 - name: 🐟 漏网之鱼
   type: select
   prior: PROXY
-- name: 🇭🇰 香港节点
-  type: url-test
-  rule: false
-  regex: 🇭🇰|HK|Hong|Kong|HGC|WTT|CMI|港
-- name: 🇨🇳 台湾节点
-  type: url-test
-  rule: false
-  regex: 🇹🇼|TW|Taiwan|新北|彰化|CHT|台|HINET
-- name: 🇸🇬 狮城节点
-  type: url-test
-  rule: false
-  regex: 🇸🇬|SG|Singapore|狮城|^新[^节北]|[^刷更]新[^节北]
-- name: 🇯🇵 日本节点
-  type: url-test
-  rule: false
-  regex: 🇯🇵|JP|Japan|Tokyo|Osaka|Saitama|东京|大阪|埼玉|日
-- name: 🇰🇷 韩国节点
-  type: url-test
-  rule: false
-  regex: 🇰🇷|KO?R|Korea|首尔|韩|韓
-- name: 🇺🇸 美国节点
-  type: url-test
-  rule: false
-  regex: 🇺🇸|US|America|United.*?States|美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥
