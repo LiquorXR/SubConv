@@ -80,7 +80,7 @@ async def pack(url: list, urlstandalone: list, urlstandby:list, urlstandbystanda
 
     # result += head.PROXY_GROUP_HEAD
     proxyGroups = {
-        "proxy-groups": []
+    #    "proxy-groups": []
     }
 
     # add proxy select
