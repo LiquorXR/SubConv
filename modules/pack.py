@@ -51,53 +51,52 @@ async def pack(url: list, urlstandalone: list, urlstandby:list, urlstandbystanda
 
 import uuid
 
-providers = {
-    "proxy-providers": {}
-}
+    providers = {
+        "proxy-providers": {}
+    }
 
-if url or urlstandby:
-    if url:
-        for u in range(len(url)):
-            # 生成随机文件名
-            random_filename = str(uuid.uuid4())
-            providers["proxy-providers"].update({
-                "subscription{}".format(u): {
-                    "type": "http",
-                    "url": url[u],
-                    "interval": int(interval),
-                    "path": "./sub/{random_filename}.yaml",
-                    "health-check": {
-                        "enable": True,
-                        "interval": 60,
-                        "url": config.configInstance.TEST_URL
+    if url or urlstandby:
+        if url:
+            for u in range(len(url)):
+               # 生成随机文件名
+                random_filename = str(uuid.uuid4())
+                providers["proxy-providers"].update({
+                   "subscription{}".format(u): {
+                        "type": "http",
+                        "url": url[u],
+                        "interval": int(interval),
+                        "path": "./sub/{random_filename}.yaml",
+                        "health-check": {
+                            "enable": True,
+                            "interval": 60,
+                            "url": config.configInstance.TEST_URL
+                        }
                     }
-                }
-            })
+                })
 
-    if urlstandby:
-        for u in range(len(urlstandby)):
-            # 生成随机文件名
-            random_filename = str(uuid.uuid4())
-            providers["proxy-providers"].update({
-                "subscription{}".format("sub"+str(u)): {
-                    "type": "http",
-                    "url": urlstandby[u],
-                    "interval": int(interval),
-                    "path": "./sub/{random_filename}_standby.yaml",
-                    "health-check": {
-                        "enable": True,
-                        "interval": 60,
-                        "url": config.configInstance.TEST_URL
+        if urlstandby:
+            for u in range(len(urlstandby)):
+                # 生成随机文件名
+                random_filename = str(uuid.uuid4())
+                providers["proxy-providers"].update({
+                    "subscription{}".format("sub"+str(u)): {
+                        "type": "http",
+                        "url": urlstandby[u],
+                        "interval": int(interval),
+                        "path": "./sub/{random_filename}_standby.yaml",
+                        "health-check": {
+                            "enable": True,
+                            "interval": 60,
+                            "url": config.configInstance.TEST_URL
+                        }
                     }
-                }
-            })
+                })
 
-if len(providers["proxy-providers"]) == 0:
-    providers = None
+    if len(providers["proxy-providers"]) == 0:
+        providers = None
 
-if providers:
-    result.update(providers)
-
+    if providers:
+        result.update(providers)
 
     # result += head.PROXY_GROUP_HEAD
     proxyGroups = {
