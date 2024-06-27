@@ -80,6 +80,10 @@ async def pack(url: list, urlstandalone: list, urlstandby: list, urlstandbystand
     if providers:
         result.update(providers)
 
+        # Generate subscriptions and standby subscriptions list from proxy-providers
+        subscriptions = [key for key in providers["proxy-providers"] if key.startswith("subscription")]
+        standby = [key for key in providers["proxy-providers"] if key.startswith("subscription_sub")]
+
     # Proxy groups section
     proxyGroups = {
         "proxy-groups": []
@@ -96,20 +100,6 @@ async def pack(url: list, urlstandalone: list, urlstandby: list, urlstandbystand
             proxySelect["proxies"].append(group.name)
     proxySelect["proxies"].extend(["DIRECT", "REJECT"])
     proxyGroups["proxy-groups"].append(proxySelect)
-
-    # Generate subscriptions and standby subscriptions list
-    subscriptions = []
-    if url:
-        for u in range(len(url)):
-            subscriptions.append(f"subscription{u}")
-    standby = subscriptions[:]
-    if urlstandby:
-        for u in range(len(urlstandby)):
-            standby.append(f"subscription_sub{u}")
-    if not subscriptions:
-        subscriptions = None
-    if not standby:
-        standby = None
 
     # Add proxy groups
     for group in config.configInstance.CUSTOM_PROXY_GROUP:
